@@ -16,9 +16,13 @@ const productSchema = new mongoose.Schema(
       required: [true, "Product price is required"],
       min: 0,
     },
-    image: {
-      type: String,
-      required: [true, "Product image URL is required"],
+    images: {
+      type: [String], // An array of image URLs
+      required: [true, "At least one product image is required"],
+      validate: {
+        validator: (v) => Array.isArray(v) && v.length > 0,
+        message: "Please provide at least one image URL",
+      },
     },
     stock: {
       type: Number,
@@ -29,6 +33,10 @@ const productSchema = new mongoose.Schema(
       type: String,
       enum: ["Shampoo", "Conditioner", "Oil", "Cream", "Accessory", "Other"],
       default: "Other",
+    },
+    isFeatured: {
+      type: Boolean,
+      default: false,
     },
   },
   { timestamps: true }

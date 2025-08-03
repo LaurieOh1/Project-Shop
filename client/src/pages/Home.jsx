@@ -2,6 +2,7 @@ import React from "react";
 import ScrollImageHero from "../components/ScrollImageHero";
 import JoinExperience from "../components/JoinExperience";
 
+
 const Home = () => {
   return (
     <>
@@ -12,6 +13,7 @@ const Home = () => {
       <ScrollImageHero />
 
       {/* Other homepage content like best sellers, etc. */}
+     
     </>
   );
 };

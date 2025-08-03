@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import img from '../assets/hairProductsetting.webp'; // Replace with your image path
+import img from '../assets/products&sceneries/20250801_1535_Product Set Display_remix_01k1jxef5nev0t33828ngw4jbd.png'; // Replace with your image path
+import BestSellerCarousel from '../components/BestSellerCarousel';
 
 const ScrollImageHorizontalReveal = () => {
   const [scrollY, setScrollY] = useState(0);
@@ -13,9 +14,9 @@ const ScrollImageHorizontalReveal = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Clamp width from 50vw (square-like) to 100vw
-  const width = Math.min(100, 50 + scrollY / 10); // Expand as you scroll
-  const textColor = width >= 100 ? 'text-black' : 'text-white';
+  
+  const width = Math.min(100, 50 + scrollY / 10); 
+  const textColor = width >= 100 ? 'text-white' : 'text-black';
 
   return (
     <section className="relative w-full overflow-hidden">
@@ -41,7 +42,9 @@ const ScrollImageHorizontalReveal = () => {
       </div>
 
       {/* Black background scroll zone */}
-      <div className="h-[200vh] bg-black w-full"></div>
+      <div className="h-[200vh] bg-black w-full">
+        <BestSellerCarousel />
+      </div>
     </section>
   );
 };

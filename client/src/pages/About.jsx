@@ -1,5 +1,5 @@
 import React from "react";
-import windowProducts from "../assets/window_products.png"; // adjust path based on your file structure
+import windowProducts from "../assets/aboutUs/window_products.png"; 
 
 
 const About = () => {
