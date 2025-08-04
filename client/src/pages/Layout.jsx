@@ -1,33 +1,37 @@
-import React from 'react'
-import{ Link } from 'react-router-dom';
-import { Outlet } from 'react-router-dom';
-import '../styles/Layout.css'
+import React from 'react';
+import { Link, Outlet } from 'react-router-dom';
+import '../styles/Layout.css'; // Assuming you have some global styles
 
 function Layout() {
   return (
     <>
-    <nav>
-      <ul>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/about">About</Link>
-        </li>
-        <li>
-          <Link to="/contact">Contact</Link>
-        </li>
-       
-        <li>
-          <Link to="/blog">Blog</Link>
-
-        </li>
-         
-      </ul>
-    </nav>
-    <Outlet/>
-</>
-  )
+      <nav className="bg-black text-white py-4 px-6">
+        <ul className="flex space-x-12 text-lg">
+          <li>
+            <Link to="/" className="hover:text-gray-400 transition">
+              Home
+            </Link>
+          </li>
+          <li>
+            <Link to="/about" className="hover:text-gray-400 transition">
+              About
+            </Link>
+          </li>
+          <li>
+            <Link to="/contact" className="hover:text-gray-400 transition">
+              Contact
+            </Link>
+          </li>
+          <li>
+            <Link to="/blog" className="hover:text-gray-400 transition">
+              Blog
+            </Link>
+          </li>
+        </ul>
+      </nav>
+      <Outlet />
+    </>
+  );
 }
 
-export default Layout
+export default Layout;

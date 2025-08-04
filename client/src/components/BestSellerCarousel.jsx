@@ -13,9 +13,11 @@ const BestSellerCarousel = () => {
   useEffect(() => {
     const fetchBestSellers = async () => {
       try {
-        const { data } = await axios.get("/api/products");
-        const featured = data.filter((product) => product.isFeatured);
-        setProducts(featured);
+        const { data } = await axios.get("/api/products/featured");
+        if (!data || !Array.isArray(data)) {
+          throw new Error("Invalid data format");
+        }
+        setProducts(data);
       } catch (error) {
         console.error("Failed to load best sellers", error);
       }
@@ -47,7 +49,7 @@ const BestSellerCarousel = () => {
             <SwiperSlide key={product._id}>
               <div className="bg-gray-100 rounded-lg shadow p-4 flex flex-col items-center group">
                 {/* Image Hover Effect */}
-                <div className="relative w-full h-48 overflow-hidden rounded mb-4">
+                <div className="relative w-full h-48 overflow-hidden rounded">
                   <img
                     src={product.images?.[0]}
                     alt={product.name}

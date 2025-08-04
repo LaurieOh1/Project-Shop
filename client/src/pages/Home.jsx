@@ -1,13 +1,13 @@
 import React from "react";
 import ScrollImageHero from "../components/ScrollImageHero";
-import JoinExperience from "../components/JoinExperience";
+import HeroSection from "../components/HeroSection";
+
 
 
 const Home = () => {
   return (
     <>
-      <JoinExperience />
-  
+      <HeroSection />
 
       {/* Scroll-enhanced visual experience section */}
       <ScrollImageHero />

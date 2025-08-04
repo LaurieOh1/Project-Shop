@@ -1,28 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import img from '../assets/products&sceneries/20250801_1535_Product Set Display_remix_01k1jxef5nev0t33828ngw4jbd.png'; // Replace with your image path
+import img from '../assets/products&sceneries/20250801_1535_Product Set Display_remix_01k1jxef5nev0t33828ngw4jbd.png';
 import BestSellerCarousel from '../components/BestSellerCarousel';
 
 const ScrollImageHorizontalReveal = () => {
   const [scrollY, setScrollY] = useState(0);
 
-  const handleScroll = () => {
-    setScrollY(window.scrollY);
-  };
-
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  
-  const width = Math.min(100, 50 + scrollY / 10); 
-  const textColor = width >= 100 ? 'text-white' : 'text-black';
+  // Start at 50vw, expand slowly to 100vw
+  const width = Math.min(100, 50 + scrollY / 25); // ← slower reveal
+  const textColor = width >= 90 ? 'text-white' : 'text-black';
 
   return (
-    <section className="relative w-full overflow-hidden">
+    <section className="relative w-full overflow-hidden scroll-smooth mt-1">
       {/* Expanding image container */}
       <div
-        className="mx-auto h-[100vh] transition-all duration-300 ease-in-out overflow-hidden"
+        className="mx-auto h-[100vh] transition-all duration-500 ease-out overflow-hidden"
         style={{
           width: `${width}vw`,
           backgroundImage: `url(${img})`,
@@ -31,7 +31,7 @@ const ScrollImageHorizontalReveal = () => {
           backgroundRepeat: 'no-repeat',
         }}
       >
-        {/* Text over the image */}
+        {/* Centered Text */}
         <div
           className={`flex items-center justify-center h-full w-full transition-colors duration-300 ${textColor}`}
         >
@@ -41,7 +41,7 @@ const ScrollImageHorizontalReveal = () => {
         </div>
       </div>
 
-      {/* Black background scroll zone */}
+      {/* Scroll zone with carousel */}
       <div className="h-[200vh] bg-black w-full">
         <BestSellerCarousel />
       </div>
