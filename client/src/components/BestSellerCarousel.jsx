@@ -17,7 +17,7 @@ const BestSellerCarousel = () => {
           "/api/products/featured"
         );
 
-        console.log("Best sellers API response:", responseData); // Moved inside try
+        console.log("Best sellers API response:", responseData); 
         console.log("Best sellers state:", products);
 
         if (!responseData || !Array.isArray(responseData)) {
@@ -55,7 +55,7 @@ const BestSellerCarousel = () => {
           {products.map((product) => (
             <SwiperSlide key={product._id}>
               <div className="bg-gray-100 rounded-lg shadow p-4 flex flex-col items-center group">
-                {/* Image Hover Effect */}
+                
                 <div className="relative w-full h-80 md:h-96 overflow-hidden rounded">
                   <img
                     src={product.images?.[0]}

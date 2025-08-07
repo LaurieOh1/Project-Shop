@@ -9,10 +9,8 @@ const Home = () => {
     <>
       <HeroSection />
 
-      {/* Scroll-enhanced visual experience section */}
       <ScrollImageHero />
 
-      {/* Other homepage content like best sellers, etc. */}
      
     </>
   );

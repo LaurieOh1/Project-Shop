@@ -8,6 +8,7 @@ import Blog from './pages/Blog';
 import Layout from './pages/Layout';
 import AllProductsPage from './pages/AllProductsPage';
 import ProductDetailPage from './pages/ProductDetailPage';
+import RegisterPage from "./pages/RegisterPage";
 
 function App() {
   return <>
@@ -20,6 +21,7 @@ function App() {
     <Route path="/blog" element={<Blog />} />
     <Route path="/shop" element={<AllProductsPage />} />
     <Route path="/products/:id" element={<ProductDetailPage />} />
+    <Route path="/register" element={<RegisterPage />} />
     <Route path="*" element={<NoPage />} />
 
     </Route>

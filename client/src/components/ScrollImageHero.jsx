@@ -32,7 +32,7 @@ const ScrollImageHorizontalReveal = () => {
           backgroundRepeat: 'no-repeat',
         }}
       >
-        {/* Centered Text */}
+     
         <div
           className={`flex items-center justify-center h-full w-full transition-colors duration-300 ${textColor}`}
         >
@@ -42,7 +42,7 @@ const ScrollImageHorizontalReveal = () => {
         </div>
       </div>
 
-      {/* Scroll zone with carousel */}
+     
       <div >
         <BestSellerCarousel />
         <FeatureGrid />

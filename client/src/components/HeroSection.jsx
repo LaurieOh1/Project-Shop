@@ -27,9 +27,9 @@ const HeroSection = () => {
 
   return (
     <section className="relative w-full bg-white overflow-hidden">
-      {/* Hero area with scroll transform */}
+      
       <div className="sticky top-0 h-screen w-full flex z-10">
-        {/* Left: Image */}
+      
         <div
           className="bg-cover bg-center transition-all duration-500 ease-out"
           style={{
@@ -39,7 +39,7 @@ const HeroSection = () => {
           }}
         />
 
-        {/* Right: Text section */}
+       
         <div
           className={`flex items-center justify-center transition-all duration-500 ease-out ${
             isLocked
