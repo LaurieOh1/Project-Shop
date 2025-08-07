@@ -7,31 +7,31 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import axios from "axios";
 
-
-
 const BestSellerCarousel = () => {
   const [products, setProducts] = useState([]);
 
- useEffect(() => {
-  const fetchBestSellers = async () => {
-    try {
-      const { data: responseData } = await axios.get("/api/products/featured");
+  useEffect(() => {
+    const fetchBestSellers = async () => {
+      try {
+        const { data: responseData } = await axios.get(
+          "/api/products/featured"
+        );
 
-      console.log("Best sellers API response:", responseData); // Moved inside try
-      console.log("Best sellers state:", products);
+        console.log("Best sellers API response:", responseData); // Moved inside try
+        console.log("Best sellers state:", products);
 
-      if (!responseData || !Array.isArray(responseData)) {
-        throw new Error("Invalid data format");
+        if (!responseData || !Array.isArray(responseData)) {
+          throw new Error("Invalid data format");
+        }
+
+        setProducts(responseData);
+      } catch (error) {
+        console.error("Failed to load best sellers", error);
       }
+    };
 
-      setProducts(responseData);
-    } catch (error) {
-      console.error("Failed to load best sellers", error);
-    }
-  };
-
-  fetchBestSellers();
-}, []);
+    fetchBestSellers();
+  }, []);
 
   return (
     <section className="bg-white py-12">
@@ -56,7 +56,7 @@ const BestSellerCarousel = () => {
             <SwiperSlide key={product._id}>
               <div className="bg-gray-100 rounded-lg shadow p-4 flex flex-col items-center group">
                 {/* Image Hover Effect */}
-                <div className="relative w-full h-48 overflow-hidden rounded">
+                <div className="relative w-full h-80 md:h-96 overflow-hidden rounded">
                   <img
                     src={product.images?.[0]}
                     alt={product.name}
@@ -70,7 +70,9 @@ const BestSellerCarousel = () => {
                 </div>
 
                 <h3 className="text-lg font-semibold mb-2">{product.name}</h3>
-                <p className="text-gray-700 font-medium mb-2">€{product.price}</p>
+                <p className="text-gray-700 font-medium mb-2">
+                  €{product.price}
+                </p>
                 <Link
                   to={`/products/${product._id}`}
                   className="mt-auto bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition"

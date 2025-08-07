@@ -27,6 +27,9 @@ function Layout() {
               Blog
             </Link>
           </li>
+           <li>
+            <Link to="/shop" className="hover:text-gray-400 transition">Shop</Link>
+          </li>
         </ul>
       </nav>
       <Outlet />

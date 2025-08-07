@@ -6,6 +6,8 @@ import Contact from './pages/Contact';
 import NoPage from './pages/NoPage';
 import Blog from './pages/Blog';
 import Layout from './pages/Layout';
+import AllProductsPage from './pages/AllProductsPage';
+import ProductDetailPage from './pages/ProductDetailPage';
 
 function App() {
   return <>
@@ -16,7 +18,10 @@ function App() {
     <Route path="/about" element={<About />} />
     <Route path="/contact" element={<Contact />} />
     <Route path="/blog" element={<Blog />} />
+    <Route path="/shop" element={<AllProductsPage />} />
+    <Route path="/products/:id" element={<ProductDetailPage />} />
     <Route path="*" element={<NoPage />} />
+
     </Route>
   </Routes>
   

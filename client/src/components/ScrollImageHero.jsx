@@ -43,7 +43,7 @@ const ScrollImageHorizontalReveal = () => {
       </div>
 
       {/* Scroll zone with carousel */}
-      <div className="h-[200vh] bg-black w-full">
+      <div >
         <BestSellerCarousel />
         <FeatureGrid />
       </div>

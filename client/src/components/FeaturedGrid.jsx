@@ -36,7 +36,7 @@ const FeatureGrid = () => {
       {gridItems.map((item) => (
         <div
           key={item.id}
-          className="relative w-full aspect-square flex items-center justify-center bg-white group border"
+          className="relative w-full aspect-square flex items-center justify-center bg-white group border overflow-hidden"
         >
           <img
             src={item.image}
