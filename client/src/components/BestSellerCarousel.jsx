@@ -7,24 +7,31 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import axios from "axios";
 
+
+
 const BestSellerCarousel = () => {
   const [products, setProducts] = useState([]);
 
-  useEffect(() => {
-    const fetchBestSellers = async () => {
-      try {
-        const { data } = await axios.get("/api/products/featured");
-        if (!data || !Array.isArray(data)) {
-          throw new Error("Invalid data format");
-        }
-        setProducts(data);
-      } catch (error) {
-        console.error("Failed to load best sellers", error);
-      }
-    };
+ useEffect(() => {
+  const fetchBestSellers = async () => {
+    try {
+      const { data: responseData } = await axios.get("/api/products/featured");
 
-    fetchBestSellers();
-  }, []);
+      console.log("Best sellers API response:", responseData); // Moved inside try
+      console.log("Best sellers state:", products);
+
+      if (!responseData || !Array.isArray(responseData)) {
+        throw new Error("Invalid data format");
+      }
+
+      setProducts(responseData);
+    } catch (error) {
+      console.error("Failed to load best sellers", error);
+    }
+  };
+
+  fetchBestSellers();
+}, []);
 
   return (
     <section className="bg-white py-12">

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import img from '../assets/products&sceneries/20250801_1535_Product Set Display_remix_01k1jxef5nev0t33828ngw4jbd.png';
 import BestSellerCarousel from '../components/BestSellerCarousel';
+import FeatureGrid from '../components/FeaturedGrid';
 
 const ScrollImageHorizontalReveal = () => {
   const [scrollY, setScrollY] = useState(0);
@@ -44,6 +45,7 @@ const ScrollImageHorizontalReveal = () => {
       {/* Scroll zone with carousel */}
       <div className="h-[200vh] bg-black w-full">
         <BestSellerCarousel />
+        <FeatureGrid />
       </div>
     </section>
   );
