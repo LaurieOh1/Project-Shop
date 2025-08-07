@@ -6,26 +6,10 @@ import image3 from "../assets/grid/20250803_2042_African-Inspired Bowls_simple_c
 import image4 from "../assets/grid/20250803_2140_Styled Afro Stretch_remix_01k1rq3g00e5pr7008qrn7bn5e.png";
 
 const gridItems = [
-  {
-    id: 1,
-    image: image1,
-    link: "/products/1",
-  },
-  {
-    id: 2,
-    image: image2,
-    link: "/products/2",
-  },
-  {
-    id: 3,
-    image: image3,
-    link: "/products/3",
-  },
-  {
-    id: 4,
-    image: image4,
-    link: "/products/4",
-  },
+  { id: 1, image: image1, link: "/products/1" },
+  { id: 2, image: image2, link: "/products/2" },
+  { id: 3, image: image3, link: "/products/3" },
+  { id: 4, image: image4, link: "/products/4" },
 ];
 
 const FeatureGrid = () => {
@@ -38,9 +22,7 @@ const FeatureGrid = () => {
       }
     };
 
-    // Always reset on component mount
     setHasRevealed(false);
-
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -54,20 +36,22 @@ const FeatureGrid = () => {
       {gridItems.map((item) => (
         <div
           key={item.id}
-          className="relative w-full h-[50vh] overflow-hidden group"
+          className="relative w-full aspect-square flex items-center justify-center bg-white group border"
         >
           <img
             src={item.image}
             alt={`Feature ${item.id}`}
-            className="w-full h-full object-cover"
+            className="max-w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-105"
           />
-          <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
-            <Link
-              to={item.link}
-              className="bg-white text-black px-4 py-2 rounded font-semibold"
-            >
-              View Product
-            </Link>
+          <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition">
+            <div className="flex items-center justify-center h-full">
+              <Link
+                to={item.link}
+                className="bg-white text-black px-4 py-2 rounded font-semibold shadow"
+              >
+                View Product
+              </Link>
+            </div>
           </div>
         </div>
       ))}
@@ -76,5 +60,4 @@ const FeatureGrid = () => {
 };
 
 export default FeatureGrid;
-
 
