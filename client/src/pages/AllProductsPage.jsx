@@ -25,7 +25,7 @@ const AllProductsPage = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {products.map((product) => (
           <div key={product._id} className="bg-white shadow rounded p-4 group">
-            <div className="relative w-full h-64 overflow-hidden rounded">
+            <div className="relative w-full h-100 overflow-hidden rounded">
               <img
                 src={product.images?.[0]}
                 alt={product.name}

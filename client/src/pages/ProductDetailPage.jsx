@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const ProductDetailPage = () => {
-  const { id } = useParams(); 
+  const { id } = useParams();
   const [product, setProduct] = useState(null);
+  const [user, setUser] = useState(null); // store login state
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -16,8 +18,35 @@ const ProductDetailPage = () => {
       }
     };
 
+    // Example: get user from localStorage (depends on your auth system)
+    const storedUser = localStorage.getItem("userInfo");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+
     fetchProduct();
   }, [id]);
+
+  const handleAddToCart = async () => {
+    if (!user) {
+      // If no user logged in, redirect to login
+      navigate("/login");
+      return;
+    }
+
+    try {
+      // Call your backend to add the product to cart
+      await axios.post("/api/cart", {
+        productId: product._id,
+        quantity: 1,
+      });
+
+      // Redirect to cart page
+      navigate("/cart");
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+    }
+  };
 
   if (!product) {
     return <div className="text-center py-10">Loading product...</div>;
@@ -37,11 +66,16 @@ const ProductDetailPage = () => {
         <h1 className="text-3xl font-bold mb-4">{product.name}</h1>
         <p className="text-gray-600 mb-4">{product.description}</p>
         <p className="text-xl font-semibold mb-4">€{product.price}</p>
-        <p className="text-sm text-gray-500 mb-4">Category: {product.category}</p>
+        <p className="text-sm text-gray-500 mb-4">
+          Category: {product.category}
+        </p>
         <p className="text-sm text-gray-500 mb-4">
           {product.stock > 0 ? `${product.stock} in stock` : "Out of stock"}
         </p>
-        <button className="bg-black text-white px-6 py-2 rounded hover:bg-gray-800 transition">
+        <button
+          onClick={handleAddToCart}
+          className="bg-black text-white px-6 py-2 rounded hover:bg-gray-800 transition"
+        >
           Add to Cart
         </button>
       </div>
@@ -50,3 +84,4 @@ const ProductDetailPage = () => {
 };
 
 export default ProductDetailPage;
+

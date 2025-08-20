@@ -1,70 +1,49 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import heroImage from "../assets/homepage/20250610_1037_Elegant Portrait Silhouette_remix_01jxcfpjqwemxvznh38j7j0amg.png";
-import "../components/styleComponent/HeroSection.css"; 
+import heroImage from "../assets/gridBackground/20250610_1037_Elegant Portrait Silhouette_remix_01jxcfpjqwemxvznh38j7j0amg.png";
+import "../components/styleComponent/HeroSection.css";
 
 const HeroSection = () => {
-  const [progress, setProgress] = useState(0);
-  const [isLocked, setIsLocked] = useState(false);
+  // Fallback parallax for mobile where background-attachment: fixed is buggy
+  const [offsetY, setOffsetY] = useState(0);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      const maxScroll = window.innerHeight;
-
-      if (scrollTop >= maxScroll) {
-        setProgress(1);
-        setIsLocked(true);
-      } else {
-        const current = scrollTop / maxScroll;
-        setProgress(current);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setOffsetY(window.scrollY);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
-    <section className="relative w-full bg-white overflow-hidden">
-      
-      <div className="sticky top-0 h-screen w-full flex z-10">
-      
-        <div
-          className="bg-cover bg-center transition-all duration-500 ease-out"
-          style={{
-            backgroundImage: `url(${heroImage})`,
-            width: isLocked ? "50vw" : `${100 - progress * 50}vw`,
-            height: "100vh",
-          }}
-        />
+    <section className="hero-parallax">
+      {/* Background layer */}
+      <div
+        className="hero-bg"
+        style={{
+          backgroundImage: `url(${heroImage})`,
+          // Mobile fallback: move bg slightly with scroll (parallax feel)
+          transform: `translateY(${offsetY * 0.2}px)`,
+        }}
+      />
 
-       
-        <div
-          className={`flex items-center justify-center transition-all duration-500 ease-out ${
-            isLocked
-              ? "w-1/2 h-full bg-terra text-white"
-              : "absolute inset-0 text-white"
-          }`}
-        >
-          <div className="text-center max-w-xl px-6 space-y-6">
-            <h1 className="text-4xl md:text-6xl font-extrabold">
-              Celebrate Every Curl
-            </h1>
-            <p className="text-lg md:text-xl">
-              Amur brings you premium hair care tailored for Afro-textured beauty — clean, nourishing, and made with intention.
-            </p>
-            <Link
-              to="/products"
-              className={`inline-block mt-4 px-6 py-3 text-lg rounded-full transition ${
-                isLocked
-                  ? "bg-black text-white hover:bg-gray-800"
-                  : "bg-white text-black hover:bg-gray-300"
-              }`}
-            >
-              Shop Best Sellers
-            </Link>
-          </div>
+      {/* Dark overlay */}
+      <div className="hero-overlay" />
+
+      {/* Content */}
+      <div className="hero-content">
+        <div className="text-center max-w-xl px-6 space-y-6">
+          <h1 className="text-4xl md:text-6xl font-extrabold text-white">
+            Celebrate Every Curl
+          </h1>
+          <p className="text-lg md:text-xl text-white">
+            Amur brings you premium hair care tailored for Afro-textured beauty —
+            clean, nourishing, and made with intention.
+          </p>
+          <Link
+            to="/products"
+            className="inline-block mt-2 px-6 py-3 text-lg rounded-full bg-white text-black hover:bg-gray-200 transition"
+          >
+            Shop Our Products
+          </Link>
         </div>
       </div>
     </section>
