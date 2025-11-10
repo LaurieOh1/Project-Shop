@@ -36,7 +36,7 @@ const LoginPage = () => {
       {error && <div className="mb-4 text-sm text-center text-red-600">{error}</div>}
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Email */}
+     
         <div>
           <label className="block text-sm font-medium mb-1">Email</label>
           <input
@@ -48,7 +48,6 @@ const LoginPage = () => {
           />
         </div>
 
-        {/* Password */}
         <div className="relative">
           <label className="block text-sm font-medium mb-1">Password</label>
           <input

@@ -73,7 +73,7 @@ const RegisterPage = () => {
       {globalMsg && <div className="mb-4 text-sm text-center text-red-600">{globalMsg}</div>}
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Name */}
+        
         <div>
           <label className="block text-sm font-medium mb-1">Name</label>
           <input
@@ -83,7 +83,7 @@ const RegisterPage = () => {
           {errors.name && <p className="text-red-600 text-sm mt-1">{errors.name}</p>}
         </div>
 
-        {/* Email */}
+      
         <div>
           <label className="block text-sm font-medium mb-1">Email</label>
           <input
@@ -93,7 +93,7 @@ const RegisterPage = () => {
           {errors.email && <p className="text-red-600 text-sm mt-1">{errors.email}</p>}
         </div>
 
-        {/* Password */}
+       
         <div className="relative">
           <label className="block text-sm font-medium mb-1">Password</label>
           <input
@@ -108,7 +108,7 @@ const RegisterPage = () => {
             onClick={() => setShowPassword((s) => !s)}
           />
           {errors.password && <p className="text-red-600 text-sm mt-1">{errors.password}</p>}
-          {/* Password checklist */}
+         
           <ul className="mt-2 text-xs space-y-1">
             {pwdChecks.map((c) => (
               <li key={c.key} className={c.ok ? "text-green-600" : "text-gray-500"}>
@@ -118,7 +118,7 @@ const RegisterPage = () => {
           </ul>
         </div>
 
-        {/* Confirm Password */}
+       
         <div className="relative">
           <label className="block text-sm font-medium mb-1">Confirm Password</label>
           <input

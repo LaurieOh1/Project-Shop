@@ -89,7 +89,7 @@ const CartPage = () => {
   };
 
   const checkout = () => {
-    // Placeholder—wire to your checkout later
+    
     navigate("/checkout");
   };
 

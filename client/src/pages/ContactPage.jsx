@@ -73,7 +73,7 @@ const ContactPage = () => {
         reply ASAP.
       </p>
 
-      {/* Status banner */}
+      
       {status.msg && (
         <div
           className={`mb-6 rounded px-4 py-3 text-sm ${
@@ -88,7 +88,7 @@ const ContactPage = () => {
         onSubmit={onSubmit}
         className="grid grid-cols-1 md:grid-cols-2 gap-6"
       >
-        {/* Honeypot (hidden) */}
+       
         <input
           type="text"
           name="hp"

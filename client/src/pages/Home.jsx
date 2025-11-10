@@ -11,10 +11,10 @@ import img5 from "../assets/gridBackground/pexels-nappy-935985 (1).jpg";
 import img6 from "../assets/gridBackground/pexels-reyna-montgomery-229756504-12093796.jpg";
 
 const Home = () => {
-  // only images here
+  
   const baseImages = [img3, img4, img5, img6];
 
-  // fill up to 28 tiles by repeating
+ 
   const items = Array.from(
     { length: 28 },
     (_, i) => baseImages[i % baseImages.length]

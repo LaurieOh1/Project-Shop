@@ -5,7 +5,7 @@ import axios from "axios";
 const ProductDetailPage = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
-  const [user, setUser] = useState(null); // store login state
+  const [user, setUser] = useState(null); 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,7 +18,7 @@ const ProductDetailPage = () => {
       }
     };
 
-    // Example: get user from localStorage (depends on your auth system)
+   
     const storedUser = localStorage.getItem("userInfo");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
@@ -29,19 +29,19 @@ const ProductDetailPage = () => {
 
   const handleAddToCart = async () => {
     if (!user) {
-      // If no user logged in, redirect to login
+     
       navigate("/login");
       return;
     }
 
     try {
-      // Call your backend to add the product to cart
+      
       await axios.post("/api/cart", {
         productId: product._id,
         quantity: 1,
       });
 
-      // Redirect to cart page
+      
       navigate("/cart");
     } catch (error) {
       console.error("Error adding to cart:", error);
