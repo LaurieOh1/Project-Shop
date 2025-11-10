@@ -4,6 +4,7 @@ import HeroSection from "../components/HeroSection";
 import GridMotion from "../components/GridMotion";
 import BestSellerCarousel from "../components/BestSellerCarousel";
 import FeatureGrid from "../components/FeaturedGrid";
+import BrandValues from "../components/BrandValues";
 
 import img3 from "../assets/gridBackground/pexels-ben-iwara-1033992193-29637186.jpg";
 import img4 from "../assets/gridBackground/pexels-god-picture-369194295-14470153.jpg";
@@ -33,7 +34,7 @@ const Home = () => {
         <p className="text-gray-600">Explore our top picks for you</p>
       </div>
       <FeatureGrid />
-  
+      <BrandValues />
 
     </>
   );
