@@ -218,7 +218,7 @@ Multi-language support (EN/FR/DE)
 
 🧰 Installation & Setup
 # Clone the repository
-git clone https://github.com/your-username/amur-hair-shop.git
+git clone https://github.com/LaurieOh1/Project-Shop
 
 # Install dependencies
 npm install
