@@ -5,6 +5,7 @@ import productRoutes from "./routes/productRoutes.js";
 import contactRoutes from "./routes/contactRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import cartRoutes from "./routes/cartRoutes.js";
+import cors from "cors";
 
 
 import path from "path";
@@ -16,6 +17,14 @@ await connectDB();
 const app = express();
 const PORT = process.env.PORT || 3000;
 const __dirname = path.resolve();
+
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
+
 
 app.use(express.json());
 

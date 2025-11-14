@@ -2,9 +2,7 @@ import User from "../models/User.js";
 import asyncHandler from "../middleware/asyncHandler.js";
 import { createSendToken } from "../libs/jwt.js";
 
-// @desc    Register a new user
-// @route   POST /api/users/register
-// @access  Public
+
 export const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -19,25 +17,40 @@ export const registerUser = asyncHandler(async (req, res) => {
   createSendToken(res, 201, user);
 });
 
-// @desc    Login user
-// @route   POST /api/users/login
-// @access  Public
+
 export const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await User.findOne({ email }).select("+password");
+  
+  if (!email || !password) {
+    res.status(400);
+    throw new Error("Please provide email and password");
+  }
 
-  if (!user || !(await user.matchPassword(password))) {
+  
+  const normalizedEmail = email.toLowerCase();
+
+  const user = await User.findOne({ email: normalizedEmail }).select("+password");
+
+  
+  const passwordOk = user ? await bcrypt.compare(password, user.password) : false;
+  console.log("LOGIN DEBUG:", {
+    email: normalizedEmail,
+    userFound: !!user,
+    hasBodyPassword: !!password,
+    passwordOk,
+  });
+
+  if (!user || !passwordOk) {
     res.status(401);
     throw new Error("Invalid email or password");
   }
 
+  
   createSendToken(res, 200, user);
 });
 
-// @desc    Logout user
-// @route   POST /api/users/logout
-// @access  Private
+
 export const logoutUser = asyncHandler((req, res) => {
   res.clearCookie("jwtToken", {
     httpOnly: true,
@@ -47,9 +60,7 @@ export const logoutUser = asyncHandler((req, res) => {
   res.status(200).json({ success: true, message: "Logged out successfully" });
 });
 
-// @desc    Get logged-in user's profile
-// @route   GET /api/users/profile
-// @access  Private
+
 export const getUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id).select("-password");
 
@@ -61,9 +72,7 @@ export const getUserProfile = asyncHandler(async (req, res) => {
   res.status(200).json(user);
 });
 
-// @desc    Update user profile
-// @route   PUT /api/users/profile
-// @access  Private
+
 export const updateUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
@@ -83,17 +92,13 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
   res.status(200).json({ success: true, message: "Profile updated", user: updatedUser });
 });
 
-// @desc    Get all users (admin only)
-// @route   GET /api/users
-// @access  Admin
+
 export const getAllUsers = asyncHandler(async (req, res) => {
   const users = await User.find().select("-password");
   res.status(200).json(users);
 });
 
-// @desc    Delete a user (admin only)
-// @route   DELETE /api/users/:id
-// @access  Admin
+
 export const deleteUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
 

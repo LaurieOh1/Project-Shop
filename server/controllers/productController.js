@@ -1,9 +1,7 @@
 import Product from "../models/Product.js";
 import asyncHandler from "../middleware/asyncHandler.js";
 
-// @desc    Create a new product
-// @route   POST /api/products
-// @access  Admin
+
 export const createProduct = asyncHandler(async (req, res) => {
   const { name, description, price, image, stock, category, isFeatured } = req.body;
 
@@ -20,17 +18,49 @@ export const createProduct = asyncHandler(async (req, res) => {
   res.status(201).json(product);
 });
 
-// @desc    Get all products
-// @route   GET /api/products
-// @access  Public
+
 export const getProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find();
-  res.status(200).json(products);
+  const {
+    category,        
+    search,         
+    featured,        
+    page = 1,
+    limit = 12,
+    sort = 'createdAt', 
+    order = 'desc',     
+  } = req.query;
+
+  const filter = {};
+
+  if (category) filter.category = category; 
+  if (featured === 'true') filter.isFeatured = true;
+  if (search) {
+    filter.$or = [
+      { name: { $regex: search, $options: 'i' } },
+      { description: { $regex: search, $options: 'i' } },
+    ];
+  }
+
+  const pageNum = Math.max(1, Number(page));
+  const limitNum = Math.max(1, Number(limit));
+  const skip = (pageNum - 1) * limitNum;
+
+  const sortObj = { [sort]: order === 'asc' ? 1 : -1 };
+
+  const [products, total] = await Promise.all([
+    Product.find(filter).sort(sortObj).skip(skip).limit(limitNum),
+    Product.countDocuments(filter),
+  ]);
+
+  res.status(200).json({
+    products,
+    page: pageNum,
+    pages: Math.ceil(total / limitNum),
+    total,
+  });
 });
 
-// @desc    Get a single product by ID
-// @route   GET /api/products/:id
-// @access  Public
+
 export const getProductById = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
 
@@ -42,9 +72,7 @@ export const getProductById = asyncHandler(async (req, res) => {
   res.status(200).json(product);
 });
 
-// @desc    Update a product
-// @route   PUT /api/products/:id
-// @access  Admin
+
 export const updateProduct = asyncHandler(async (req, res) => {
   const { name, description, price, image, stock, category, isFeatured } = req.body;
 
@@ -67,9 +95,7 @@ export const updateProduct = asyncHandler(async (req, res) => {
   res.status(200).json(updatedProduct);
 });
 
-// @desc    Delete a product
-// @route   DELETE /api/products/:id
-// @access  Admin
+
 export const deleteProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
 
@@ -82,9 +108,9 @@ export const deleteProduct = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Product deleted" });
 });
 
-// @desc    Get featured products
-// @route   GET /api/products/featured
-// @access  Public
+
+
+
 export const getFeaturedProducts = asyncHandler(async (req, res) => {
   const featured = await Product.find({ isFeatured: true });
   res.status(200).json(featured);
