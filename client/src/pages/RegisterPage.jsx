@@ -10,28 +10,38 @@ const passwordRules = [
   { key: "lower", test: (v) => /[a-z]/.test(v), label: "One lowercase letter" },
   { key: "upper", test: (v) => /[A-Z]/.test(v), label: "One uppercase letter" },
   { key: "num", test: (v) => /\d/.test(v), label: "One number" },
-  { key: "sym", test: (v) => /[^A-Za-z0-9]/.test(v), label: "One special character" },
+  {
+    key: "sym",
+    test: (v) => /[^A-Za-z0-9]/.test(v),
+    label: "One special character",
+  },
 ];
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
-    name: "", email: "", password: "", confirmPassword: "",
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
   const [errors, setErrors] = useState({});
   const [globalMsg, setGlobalMsg] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
-  const [showEmailUsed, setShowEmailUsed] = useState(false); // 👈 added
+  const [showEmailUsed, setShowEmailUsed] = useState(false); 
   const navigate = useNavigate();
 
   const onChange = (e) => {
     setFormData((p) => ({ ...p, [e.target.name]: e.target.value }));
-    if (errors[e.target.name]) setErrors((p) => ({ ...p, [e.target.name]: "" }));
+    if (errors[e.target.name])
+      setErrors((p) => ({ ...p, [e.target.name]: "" }));
     if (globalMsg) setGlobalMsg("");
   };
 
   const pwdChecks = passwordRules.map((r) => ({
-    key: r.key, label: r.label, ok: r.test(formData.password || ""),
+    key: r.key,
+    label: r.label,
+    ok: r.test(formData.password || ""),
   }));
 
   const validate = () => {
@@ -40,9 +50,12 @@ const RegisterPage = () => {
     if (!formData.email.trim()) next.email = "Email is required";
     if (!formData.password) next.password = "Password is required";
     const failed = passwordRules.filter((r) => !r.test(formData.password));
-    if (formData.password && failed.length) next.password = "Password does not meet requirements";
-    if (!formData.confirmPassword) next.confirmPassword = "Please confirm your password";
-    else if (formData.password !== formData.confirmPassword) next.confirmPassword = "Passwords do not match";
+    if (formData.password && failed.length)
+      next.password = "Password does not meet requirements";
+    if (!formData.confirmPassword)
+      next.confirmPassword = "Please confirm your password";
+    else if (formData.password !== formData.confirmPassword)
+      next.confirmPassword = "Passwords do not match";
     setErrors(next);
     return Object.keys(next).length === 0;
   };
@@ -65,11 +78,17 @@ const RegisterPage = () => {
       });
       navigate("/login");
     } catch (err) {
-      const status = err.response?.status;
-      if (status === 409) {
-        setShowEmailUsed(true); // 👈 open modal if email already used
+      console.error("Register error:", err.response || err);
+
+      if (err.response) {
+      
+        const msg =
+          err.response.data?.message ||
+          `Request failed with status ${err.response.status}`;
+        setGlobalMsg(msg);
       } else {
-        setGlobalMsg(err.response?.data?.message || "Something went wrong. Please try again.");
+        
+        setGlobalMsg("Cannot reach the server. Is the backend running?");
       }
     }
   };
@@ -77,34 +96,54 @@ const RegisterPage = () => {
   return (
     <>
       <div className="max-w-md mx-auto mt-12 bg-white p-8 shadow rounded">
-        <h2 className="text-2xl font-bold mb-6 text-center">Create an Account</h2>
-        {globalMsg && <div className="mb-4 text-sm text-center text-red-600">{globalMsg}</div>}
+        <h2 className="text-2xl font-bold mb-6 text-center">
+          Create an Account
+        </h2>
+        {globalMsg && (
+          <div className="mb-4 text-sm text-center text-red-600">
+            {globalMsg}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-sm font-medium mb-1">Name</label>
             <input
-              type="text" name="name" value={formData.name}
-              onChange={onChange} className={inputClass("name")} placeholder="Your name"
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={onChange}
+              className={inputClass("name")}
+              placeholder="Your name"
             />
-            {errors.name && <p className="text-red-600 text-sm mt-1">{errors.name}</p>}
+            {errors.name && (
+              <p className="text-red-600 text-sm mt-1">{errors.name}</p>
+            )}
           </div>
 
           <div>
             <label className="block text-sm font-medium mb-1">Email</label>
             <input
-              type="email" name="email" value={formData.email}
-              onChange={onChange} className={inputClass("email")} placeholder="you@example.com"
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={onChange}
+              className={inputClass("email")}
+              placeholder="you@example.com"
             />
-            {errors.email && <p className="text-red-600 text-sm mt-1">{errors.email}</p>}
+            {errors.email && (
+              <p className="text-red-600 text-sm mt-1">{errors.email}</p>
+            )}
           </div>
 
           <div className="relative">
             <label className="block text-sm font-medium mb-1">Password</label>
             <input
               type={showPassword ? "text" : "password"}
-              name="password" value={formData.password}
-              onChange={onChange} className={inputClass("password")}
+              name="password"
+              value={formData.password}
+              onChange={onChange}
+              className={inputClass("password")}
               placeholder="Create a strong password"
             />
             <FontAwesomeIcon
@@ -112,11 +151,16 @@ const RegisterPage = () => {
               className="absolute right-3 top-10 cursor-pointer text-gray-500"
               onClick={() => setShowPassword((s) => !s)}
             />
-            {errors.password && <p className="text-red-600 text-sm mt-1">{errors.password}</p>}
+            {errors.password && (
+              <p className="text-red-600 text-sm mt-1">{errors.password}</p>
+            )}
 
             <ul className="mt-2 text-xs space-y-1">
               {pwdChecks.map((c) => (
-                <li key={c.key} className={c.ok ? "text-green-600" : "text-gray-500"}>
+                <li
+                  key={c.key}
+                  className={c.ok ? "text-green-600" : "text-gray-500"}
+                >
                   {c.ok ? "✓" : "•"} {c.label}
                 </li>
               ))}
@@ -124,11 +168,15 @@ const RegisterPage = () => {
           </div>
 
           <div className="relative">
-            <label className="block text-sm font-medium mb-1">Confirm Password</label>
+            <label className="block text-sm font-medium mb-1">
+              Confirm Password
+            </label>
             <input
               type={showConfirm ? "text" : "password"}
-              name="confirmPassword" value={formData.confirmPassword}
-              onChange={onChange} className={inputClass("confirmPassword")}
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={onChange}
+              className={inputClass("confirmPassword")}
               placeholder="Re-enter your password"
             />
             <FontAwesomeIcon
@@ -137,7 +185,9 @@ const RegisterPage = () => {
               onClick={() => setShowConfirm((s) => !s)}
             />
             {errors.confirmPassword && (
-              <p className="text-red-600 text-sm mt-1">{errors.confirmPassword}</p>
+              <p className="text-red-600 text-sm mt-1">
+                {errors.confirmPassword}
+              </p>
             )}
           </div>
 
@@ -157,13 +207,13 @@ const RegisterPage = () => {
         </p>
       </div>
 
-    
       <Modal
         open={showEmailUsed}
         onClose={() => setShowEmailUsed(false)}
         title="Email already in use"
       >
-        This email address is already registered. Please sign in or use another email.
+        This email address is already registered. Please sign in or use another
+        email.
       </Modal>
     </>
   );
