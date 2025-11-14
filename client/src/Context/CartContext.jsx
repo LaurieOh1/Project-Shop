@@ -30,7 +30,7 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  // load once on app start
+
   useEffect(() => { refreshCart(); }, []);
 
   return (

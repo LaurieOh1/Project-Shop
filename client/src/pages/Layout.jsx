@@ -9,54 +9,41 @@ import {
 import "../styles/Layout.css";
 import { useCart } from "../Context/CartContext.jsx";
 import Footer from "../components/Footer";
+import Logo from "../assets/logo/logo.png";
 
 function Layout() {
   const [showSearch, setShowSearch] = useState(false);
   const { count } = useCart();
 
-  const onSearchSubmit = (e) => {
-    e.preventDefault();
-  };
+  const onSearchSubmit = (e) => e.preventDefault();
 
   return (
     <>
-      <nav className="flex items-center justify-between bg-black text-white px-6 py-4">
-        {/* Left Navigation Links */}
+      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between bg-black/90 backdrop-blur text-white px-6 py-4 shadow-md">
+       
         <ul className="flex space-x-8">
-          <li>
-            <Link to="/" className="hover:text-gray-300">
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link to="/about" className="hover:text-gray-300">
-              About
-            </Link>
-          </li>
-          <li>
-            <Link to="/contact" className="hover:text-gray-300">
-              Contact
-            </Link>
-          </li>
-          <li>
-            <Link to="/blog" className="hover:text-gray-300">
-              Blog
-            </Link>
-          </li>
-          <li>
-            <Link to="/shop" className="hover:text-gray-300">
-              Shop
-            </Link>
-          </li>
+          <li><Link to="/" className="hover:text-gray-300">Home</Link></li>
+          <li><Link to="/about" className="hover:text-gray-300">About</Link></li>
+          <li><Link to="/contact" className="hover:text-gray-300">Contact</Link></li>
+          <li><Link to="/blog" className="hover:text-gray-300">Blog</Link></li>
+          <li><Link to="/shop" className="hover:text-gray-300">Shop</Link></li>
         </ul>
 
-        {/* Right: Search + Cart + Profile */}
+        
+        <div className="absolute left-1/2 -translate-x-1/2 -translate-y-1 h-0 flex items-center justify-center">
+          <Link to="/" aria-label="Home" className="block">
+            <img
+              src={Logo}
+              alt="Brand logo"
+              className="h-24 w-auto object-contain drop-shadow-lg"
+            />
+          </Link>
+        </div>
+
+      
         <div className="flex items-center space-x-4">
-          {/* Search toggle + input */}
-          <form
-            onSubmit={onSearchSubmit}
-            className="flex items-center space-x-2"
-          >
+    
+          <form onSubmit={onSearchSubmit} className="flex items-center space-x-2">
             <button
               type="button"
               onClick={() => setShowSearch((v) => !v)}
@@ -74,12 +61,8 @@ function Layout() {
             )}
           </form>
 
-          {/* Cart */}
-          <Link
-            to="/cart"
-            className="relative hover:text-gray-300"
-            aria-label="Cart"
-          >
+        
+          <Link to="/cart" className="relative hover:text-gray-300" aria-label="Cart">
             <FontAwesomeIcon icon={faBagShopping} size="lg" />
             {count > 0 && (
               <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-1">
@@ -88,12 +71,8 @@ function Layout() {
             )}
           </Link>
 
-          {/* Profile */}
-          <Link
-            to="/register"
-            className="hover:text-gray-300"
-            aria-label="Account"
-          >
+          
+          <Link to="/register" className="hover:text-gray-300" aria-label="Account">
             <FontAwesomeIcon icon={faUser} size="lg" />
           </Link>
         </div>

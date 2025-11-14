@@ -110,7 +110,7 @@ const GridMotion = ({ items = [], gradientColor = 'white' }) => {
           ))}
         </div>
 
-        {/* OVERLAY (added) */}
+        
         <div className="absolute inset-0 z-[6] flex items-center justify-center">
           <div className="absolute inset-0 bg-black/50" />
           <div className="relative z-[7] text-center px-6">

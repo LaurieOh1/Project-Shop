@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import Modal from "../components/Modal";
 
 const passwordRules = [
   { key: "len", test: (v) => v.length >= 8, label: "At least 8 characters" },
@@ -20,6 +21,7 @@ const RegisterPage = () => {
   const [globalMsg, setGlobalMsg] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [showEmailUsed, setShowEmailUsed] = useState(false); // 👈 added
   const navigate = useNavigate();
 
   const onChange = (e) => {
@@ -63,95 +65,108 @@ const RegisterPage = () => {
       });
       navigate("/login");
     } catch (err) {
-      setGlobalMsg(err.response?.data?.message || "Something went wrong. Please try again.");
+      const status = err.response?.status;
+      if (status === 409) {
+        setShowEmailUsed(true); // 👈 open modal if email already used
+      } else {
+        setGlobalMsg(err.response?.data?.message || "Something went wrong. Please try again.");
+      }
     }
   };
 
   return (
-    <div className="max-w-md mx-auto mt-12 bg-white p-8 shadow rounded">
-      <h2 className="text-2xl font-bold mb-6 text-center">Create an Account</h2>
-      {globalMsg && <div className="mb-4 text-sm text-center text-red-600">{globalMsg}</div>}
+    <>
+      <div className="max-w-md mx-auto mt-12 bg-white p-8 shadow rounded">
+        <h2 className="text-2xl font-bold mb-6 text-center">Create an Account</h2>
+        {globalMsg && <div className="mb-4 text-sm text-center text-red-600">{globalMsg}</div>}
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        
-        <div>
-          <label className="block text-sm font-medium mb-1">Name</label>
-          <input
-            type="text" name="name" value={formData.name}
-            onChange={onChange} className={inputClass("name")} placeholder="Your name"
-          />
-          {errors.name && <p className="text-red-600 text-sm mt-1">{errors.name}</p>}
-        </div>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium mb-1">Name</label>
+            <input
+              type="text" name="name" value={formData.name}
+              onChange={onChange} className={inputClass("name")} placeholder="Your name"
+            />
+            {errors.name && <p className="text-red-600 text-sm mt-1">{errors.name}</p>}
+          </div>
 
-      
-        <div>
-          <label className="block text-sm font-medium mb-1">Email</label>
-          <input
-            type="email" name="email" value={formData.email}
-            onChange={onChange} className={inputClass("email")} placeholder="you@example.com"
-          />
-          {errors.email && <p className="text-red-600 text-sm mt-1">{errors.email}</p>}
-        </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Email</label>
+            <input
+              type="email" name="email" value={formData.email}
+              onChange={onChange} className={inputClass("email")} placeholder="you@example.com"
+            />
+            {errors.email && <p className="text-red-600 text-sm mt-1">{errors.email}</p>}
+          </div>
 
-       
-        <div className="relative">
-          <label className="block text-sm font-medium mb-1">Password</label>
-          <input
-            type={showPassword ? "text" : "password"}
-            name="password" value={formData.password}
-            onChange={onChange} className={inputClass("password")}
-            placeholder="Create a strong password"
-          />
-          <FontAwesomeIcon
-            icon={showPassword ? faEyeSlash : faEye}
-            className="absolute right-3 top-10 cursor-pointer text-gray-500"
-            onClick={() => setShowPassword((s) => !s)}
-          />
-          {errors.password && <p className="text-red-600 text-sm mt-1">{errors.password}</p>}
-         
-          <ul className="mt-2 text-xs space-y-1">
-            {pwdChecks.map((c) => (
-              <li key={c.key} className={c.ok ? "text-green-600" : "text-gray-500"}>
-                {c.ok ? "✓" : "•"} {c.label}
-              </li>
-            ))}
-          </ul>
-        </div>
+          <div className="relative">
+            <label className="block text-sm font-medium mb-1">Password</label>
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password" value={formData.password}
+              onChange={onChange} className={inputClass("password")}
+              placeholder="Create a strong password"
+            />
+            <FontAwesomeIcon
+              icon={showPassword ? faEyeSlash : faEye}
+              className="absolute right-3 top-10 cursor-pointer text-gray-500"
+              onClick={() => setShowPassword((s) => !s)}
+            />
+            {errors.password && <p className="text-red-600 text-sm mt-1">{errors.password}</p>}
 
-       
-        <div className="relative">
-          <label className="block text-sm font-medium mb-1">Confirm Password</label>
-          <input
-            type={showConfirm ? "text" : "password"}
-            name="confirmPassword" value={formData.confirmPassword}
-            onChange={onChange} className={inputClass("confirmPassword")}
-            placeholder="Re-enter your password"
-          />
-          <FontAwesomeIcon
-            icon={showConfirm ? faEyeSlash : faEye}
-            className="absolute right-3 top-10 cursor-pointer text-gray-500"
-            onClick={() => setShowConfirm((s) => !s)}
-          />
-          {errors.confirmPassword && (
-            <p className="text-red-600 text-sm mt-1">{errors.confirmPassword}</p>
-          )}
-        </div>
+            <ul className="mt-2 text-xs space-y-1">
+              {pwdChecks.map((c) => (
+                <li key={c.key} className={c.ok ? "text-green-600" : "text-gray-500"}>
+                  {c.ok ? "✓" : "•"} {c.label}
+                </li>
+              ))}
+            </ul>
+          </div>
 
-        <button
-          type="submit"
-          className="w-full bg-black text-white py-2 rounded hover:bg-gray-800 transition"
-        >
-          Register
-        </button>
-      </form>
+          <div className="relative">
+            <label className="block text-sm font-medium mb-1">Confirm Password</label>
+            <input
+              type={showConfirm ? "text" : "password"}
+              name="confirmPassword" value={formData.confirmPassword}
+              onChange={onChange} className={inputClass("confirmPassword")}
+              placeholder="Re-enter your password"
+            />
+            <FontAwesomeIcon
+              icon={showConfirm ? faEyeSlash : faEye}
+              className="absolute right-3 top-10 cursor-pointer text-gray-500"
+              onClick={() => setShowConfirm((s) => !s)}
+            />
+            {errors.confirmPassword && (
+              <p className="text-red-600 text-sm mt-1">{errors.confirmPassword}</p>
+            )}
+          </div>
 
-      <p className="mt-6 text-sm text-center">
-        Already have an account?{" "}
-        <Link to="/login" className="text-blue-600 underline ml-1">
-          Sign In
-        </Link>
-      </p>
-    </div>
+          <button
+            type="submit"
+            className="w-full bg-black text-white py-2 rounded hover:bg-gray-800 transition"
+          >
+            Register
+          </button>
+        </form>
+
+        <p className="mt-6 text-sm text-center">
+          Already have an account?{" "}
+          <Link to="/login" className="text-blue-600 underline ml-1">
+            Sign In
+          </Link>
+        </p>
+      </div>
+
+    
+      <Modal
+        open={showEmailUsed}
+        onClose={() => setShowEmailUsed(false)}
+        title="Email already in use"
+      >
+        This email address is already registered. Please sign in or use another email.
+      </Modal>
+    </>
   );
 };
+
 export default RegisterPage;
