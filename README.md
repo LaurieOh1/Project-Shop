@@ -134,7 +134,8 @@ African design elements
 
 Clear routes:
 
-Home
+![Homepage](./images/homepage.png)
+
 
 About
 
