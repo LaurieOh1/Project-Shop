@@ -6,17 +6,24 @@ A modern e-commerce experience celebrating natural Afro-textured beauty, inspire
 
 
 
-Homepage
+![Homepage](./images/homepage.png)
 
-About Page
+![About Page](./images/about.png) 
 
-Contact Page
+![Contact Page](./images/contact.png) 
 
-Shop Page
+![Shop Page](./images/products.png)
 
-Product Detail
+![Product Detail](./images/productpage.png)
 
-Best Sellers Section
+![Best Sellers Section](./images/bestsellers.png)
+
+![Brand Identity](./images/amurBeauty.png)
+
+![Brand values](./images/brandvalues.png)
+
+
+
 
 Brand Values
 
@@ -134,8 +141,7 @@ African design elements
 
 Clear routes:
 
-![Homepage](./images/homepage.png)
-
+Homepage
 
 About
 
